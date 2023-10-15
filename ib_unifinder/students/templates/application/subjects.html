@@ -72,6 +72,11 @@
             text-align: left;
         }
 
+        .material {
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
         legend {
             font-size: 24px;
             color: #333;
@@ -154,10 +159,20 @@
                     radioButtons[0].disabled = true;
                     radioButtons[1].disabled = true;
                 }
-
-                else if (checkbox.className === 'language')
+            }
+            else if (stream === "art")
+            {
+                if (checkbox.className === 'sciencesub')
                 {
-
+                    radioButtons[1].checked = true;
+                    radioButtons[0].disabled = true;
+                    radioButtons[1].disabled = true;
+                }
+                if (checkbox.className === "other")
+                {
+                    radioButtons[0].checked = true;
+                    radioButtons[0].disabled = true;
+                    radioButtons[1].disabled = true;
                 }
             }
 
@@ -376,6 +391,9 @@
             const art = document.getElementById("art");
             const diploma = document.querySelector('input[name="c3"][value="diploma"]');
             const course = document.querySelector('input[name="c3"][value="course"]');
+            const english = document.querySelectorAll('input[name="english"]');
+            const arabic = document.querySelectorAll('input[name="arabic"]');
+            const extendedessay = document.querySelector('input[name="extendedessay"]');
 
             if (science.checked)
             {
@@ -397,13 +415,14 @@
             if (diploma.checked)
             {
                 course.disabled = true;
-                studytype = "diploma";
             }
 
             else if (course.checked)
             {
                 diploma.disabled = true;
-                studytype = "course";
+                english[0].disabled = true;
+                arabic[0].disabled = true;
+                extendedessay.disabled = true;
             }
 
             //     arrs.forEach(function(arr) {
@@ -433,6 +452,7 @@
             const sciencesubs = document.querySelectorAll(".sciencesub");
             const maths = document.querySelectorAll(".math");
             const others = document.querySelectorAll(".other");
+            const extendedessay = document.querySelector('input[name="extendedessay"]');
             // set restrictions
 
             if (stream === "science")
@@ -450,60 +470,124 @@
                 otherLimit = 2;
             }
 
-            if (studytype === "course")
-            {
-                englisha.disabled = true;
-                arabica.disabled = true;
-            }
 
             if (stream === 'science')
             {
                 const engCount = english[0].checked + english[1].checked;
                 const arabCount = arabic[0].checked + arabic[1].checked;
-                if(engCount === 1)
+                if (engCount === 1)
                 {
-                    if(english[0].checked)
-                        english[1].disabled = true;
-                    else
+                    if (english[0].checked)
+                    {
+                        english[1].disabled = true; 
                         english[0].disabled = true;
-                }
-
-                if(arabCount === 1)
-                {
-                    if(arabic[0].checked)
-                        arabic[1].disabled = true;
-                    else
                         arabic[0].disabled = true;
+                    }
+
+                    if(english[1].checked)
+                    {
+                        english[0].disabled = true;
+                        english[1].disabled = true;
+                        arabic[1].disabled = true;
+                    }
+
                 }
 
-                if(sciCount === 2)
+                if (arabCount === 1)
                 {
-                    sciencesubs.forEach(function(sciencesub)
+                    if (arabic[0].checked)
                     {
-                        if(!sciencesub.checked)
-                        {
-                            sciencesub.disabled = true;
-                        }
+                        arabic[1].disabled = true; 
+                        arabic[0].disabled = true;
+                        english[0].disabled = true;
+                    }
+
+                    if(arabic[1].checked)
+                    {
+                        arabic[0].disabled = true;
+                        arabic[1].disabled = true;
+                        english[1].disabled = true;
+                    }
+
+                }
+
+                if (sciCount === 2)
+                {
+                    sciencesubs.forEach(function (sciencesub)
+                    {
+                        sciencesub.disabled = true;
                     });
                 }
 
-                if(mathCount === 1)
+                if (mathCount === 1)
                 {
-                    if(maths[0].checked)
-                        maths[1].disabled = true;
-                    else
-                        maths[0].disabled = true;
+                    maths[1].disabled = true;
+                    maths[0].disabled = true;
                 }
 
-                if(otherCount === 1)
+                if (otherCount === 1)
                 {
-                    others.forEach(function(other)
+                    others.forEach(function (other)
                     {
-                        if(!other.checked)
-                        {
-                            other.disabled = true;
-                        }
+                        other.disabled = true;
                     });
+                }
+                if (extendedessay.checked)
+                {
+                    extendedessay.disabled = true;
+                }
+            }
+
+            else if (stream === 'art')
+            {
+                const engCount = english[0].checked + english[1].checked;
+                const arabCount = arabic[0].checked + arabic[1].checked;
+                if (engCount === 1)
+                {
+                    if (english[0].checked)
+                    {
+                        english[1].disabled = true;
+                        english[0].disabled = true;
+                    }
+
+                }
+
+                if (arabCount === 1)
+                {
+                    if (arabic[0].checked)
+                    {
+                        arabic[1].disabled = true;
+                        arabic[0].disabled = true;
+                    }
+
+                }
+
+                if (sciCount === 1)
+                {
+                    sciencesubs.forEach(function (sciencesub)
+                    {
+                        sciencesub.disabled = true;
+                    });
+                }
+
+                if (mathCount === 1)
+                {
+                    if (maths[0].checked)
+                    {
+                        maths[1].disabled = true; maths[0].disabled = true;
+                    }
+                }
+
+                if (otherCount === 2)
+                {
+                    others.forEach(function (other)
+                    {
+                        other.disabled = true;
+                    });
+                }
+                if (extendedessay.checked)
+                {
+                    extendedessay.disabled = true;
                 }
             }
         }
@@ -537,117 +621,122 @@
         </fieldset>
         <fieldset>
             <legend>Select your subjects:</legend>
-            <div>
-                <label class="container">
-                    <input class="language" type="checkbox" name="english" value="englisha"
-                        onchange="toggleRadioButtons(this)"> English A
+            <fieldset class="material">
+                <legend>Language:</legend>
+                <div>
+                    <label class="container">
+                        <input class="language" type="checkbox" name="english" value="englisha"
+                            onchange="toggleRadioButtons(this)"> English A
 
-                    <label class="studylabel2">
-                        <input type="radio" name="c6" value="eahigher" disabled> Higher
+                        <label class="studylabel2">
+                            <input type="radio" name="c6" value="eahigher" disabled> Higher
 
-                        <label class="studylabel">
-                            <input type="radio" name="c6" value="eastandard" disabled> Standard
+                            <label class="studylabel">
+                                <input type="radio" name="c6" value="eastandard" disabled> Standard
+                            </label>
+                        </label>
+                </div>
+                </label>
+                <div>
+                    <label>
+                        <input class="language" type="checkbox" name="english" value="englishb"
+                            onchange="toggleRadioButtons(this)"> English B
+                        <label class="studylabel2">
+                            <input type="radio" name="c8" value="ebhigher" disabled> Higher
+
+                            <label class="studylabel">
+                                <input type="radio" name="c8" value="ebstandard" disabled> Standard
+                            </label>
                         </label>
                     </label>
-            </div>
-            </label>
-            <div>
-                <label>
-                    <input class="language" type="checkbox" name="english" value="englishb"
-                        onchange="toggleRadioButtons(this)"> English B
-                    <label class="studylabel2">
-                        <input type="radio" name="c8" value="ebhigher" disabled> Higher
+                </div>
+                <div>
+                    <label>
+                        <input class="language" type="checkbox" name="arabic" value="arabica"
+                            onchange="toggleRadioButtons(this)"> Arabic A
+                        <label class="studylabel2">
+                            <input type="radio" name="c12" value="aahigher" disabled> Higher
 
-                        <label class="studylabel">
-                            <input type="radio" name="c8" value="ebstandard" disabled> Standard
+                            <label class="studylabel">
+                                <input type="radio" name="c12" value="aastandard" disabled> Standard
+                            </label>
                         </label>
                     </label>
-                </label>
-            </div>
-            <div>
+                </div>
                 <label>
-                    <input class="language" type="checkbox" name="arabic" value="arabica"
-                        onchange="toggleRadioButtons(this)"> Arabic A
+                    <input class="language" type="checkbox" name="arabic" value="arabicb"
+                        onchange="toggleRadioButtons(this)">
+                    Arabic B
                     <label class="studylabel2">
-                        <input type="radio" name="c12" value="aahigher" disabled> Higher
+                        <input type="radio" name="c15" value="abhigher" disabled> Higher
 
                         <label class="studylabel">
-                            <input type="radio" name="c12" value="aastandard" disabled> Standard
-                        </label>
-                    </label>
-                </label>
-            </div>
-            <label>
-                <input class="language" type="checkbox" name="arabic" value="arabicb"
-                    onchange="toggleRadioButtons(this)">
-                Arabic B
-                <label class="studylabel2">
-                    <input type="radio" name="c15" value="abhigher" disabled> Higher
-
-                    <label class="studylabel">
-                        <input type="radio" name="c15" value="abstandard" disabled> Standard
-                    </label>
-                </label>
-            </label>
-            <div>
-
-            </div>
-            <div>
-                <label>
-                    <input class="sciencesub" type="checkbox" name="science" value="cs"
-                        onchange="toggleRadioButtons(this)"> Computer Science
-                    <label class="studylabel2">
-                        <input type="radio" name="c21" value="cshigher" disabled> Higher
-
-                        <label class="studylabel">
-                            <input type="radio" name="c21" value="csstandard" disabled> Standard
+                            <input type="radio" name="c15" value="abstandard" disabled> Standard
                         </label>
                     </label>
                 </label>
-            </div>
-            <div>
-                <label>
-                    <input class="sciencesub" type="checkbox" name="science" value="bio"
-                        onchange="toggleRadioButtons(this)"> Biology
-                    <label class="studylabel2">
-                        <input type="radio" name="c24" value="biohigher" disabled> Higher
+            </fieldset>
+            <fieldset class="material">
+                <div>
+                    <legend >Science:</legend>
+                    <label>
+                        <input class="sciencesub" type="checkbox" name="science" value="cs"
+                            onchange="toggleRadioButtons(this)"> Computer Science
+                        <label class="studylabel2">
+                            <input type="radio" name="c21" value="cshigher" disabled> Higher
 
-                        <label class="studylabel">
-                            <input type="radio" name="c24" value="biostandard" disabled> Standard
+                            <label class="studylabel">
+                                <input type="radio" name="c21" value="csstandard" disabled> Standard
+                            </label>
                         </label>
                     </label>
-                </label>
-            </div>
-            <div>
-                <label>
-                    <input class="sciencesub" type="checkbox" name="science" value="chem"
-                        onchange="toggleRadioButtons(this)"> Chemistry
-                    <label class="studylabel2">
-                        <input type="radio" name="c27" value="chemhigher" disabled> Higher
+                </div>
+                <div>
+                    <label>
+                        <input class="sciencesub" type="checkbox" name="science" value="bio"
+                            onchange="toggleRadioButtons(this)"> Biology
+                        <label class="studylabel2">
+                            <input type="radio" name="c24" value="biohigher" disabled> Higher
 
-                        <label class="studylabel">
-                            <input type="radio" name="c27" value="chemstandard" disabled> Standard
+                            <label class="studylabel">
+                                <input type="radio" name="c24" value="biostandard" disabled> Standard
+                            </label>
                         </label>
                     </label>
-                </label>
-            </div>
-            <div>
-                <label>
-                    <input class="sciencesub" type="checkbox" name="science" value="phys"
-                        onchange="toggleRadioButtons(this)"> Pyhsics
-                    <label class="studylabel2">
-                        <input type="radio" name="c30" value="physhigher" disabled> Higher
+                </div>
+                <div>
+                    <label>
+                        <input class="sciencesub" type="checkbox" name="science" value="chem"
+                            onchange="toggleRadioButtons(this)"> Chemistry
+                        <label class="studylabel2">
+                            <input type="radio" name="c27" value="chemhigher" disabled> Higher
 
-                        <label class="studylabel">
-                            <input type="radio" name="c30" value="physstandard" disabled> Standard
+                            <label class="studylabel">
+                                <input type="radio" name="c27" value="chemstandard" disabled> Standard
+                            </label>
                         </label>
                     </label>
-                </label>
-            </div>
+                </div>
+                <div>
+                    <label>
+                        <input class="sciencesub" type="checkbox" name="science" value="phys"
+                            onchange="toggleRadioButtons(this)"> Pyhsics
+                        <label class="studylabel2">
+                            <input type="radio" name="c30" value="physhigher" disabled> Higher
 
+                            <label class="studylabel">
+                                <input type="radio" name="c30" value="physstandard" disabled> Standard
+                            </label>
+                        </label>
+                    </label>
+
+                </div>
+            </fieldset>
+            <fieldset class="material">
+                <legend>Math</legend>
             <div>
                 <label>
-                    <input class="math" type="checkbox" name="c35" value="mathan" onchange="toggleRadioButtons(this)">
+                    <input class="math" type="checkbox" name="math" value="mathan" onchange="toggleRadioButtons(this)">
                     Math Analysis
                     <label class="studylabel2">
                         <input type="radio" name="c36" value="mathnahigher" disabled> Higher
@@ -660,7 +749,7 @@
             </div>
             <div>
                 <label>
-                    <input class="math" type="checkbox" name="c38" value="mathap" onchange="toggleRadioButtons(this)">
+                    <input class="math" type="checkbox" name="math" value="mathap" onchange="toggleRadioButtons(this)">
                     Math Application
                     <label class="studylabel2">
                         <input type="radio" name="c39" value="mathaphigher" disabled> Higher
@@ -671,9 +760,12 @@
                     </label>
                 </label>
             </div>
+        </fieldset>
+        <fieldset class="material">
+            <legend>Individuals and Societies</legend>
             <div>
                 <label>
-                    <input class="other" type="checkbox" name="c17" value="business"
+                    <input class="other" type="checkbox" name="IS" value="business"
                         onchange="toggleRadioButtons(this)"> Business
                     <label class="studylabel2">
                         <input type="radio" name="c18" value="businesshigher" disabled> Higher
@@ -686,7 +778,7 @@
             </div>
             <div>
                 <label>
-                    <input class="other" type="checkbox" name="c32" value="eco" onchange="toggleRadioButtons(this)">
+                    <input class="other" type="checkbox" name="IS" value="eco" onchange="toggleRadioButtons(this)">
                     Economics
                     <label class="studylabel2">
                         <input type="radio" name="c33" value="ecohigher" disabled> Higher
@@ -699,7 +791,7 @@
             </div>
             <div>
                 <label>
-                    <input class="other" type="checkbox" name="c41" value="digital" onchange="toggleRadioButtons(this)">
+                    <input class="other" type="checkbox" name="IS" value="digital" onchange="toggleRadioButtons(this)">
                     Digital Society
                     <label class="studylabel2">
                         <input type="radio" name="c42" value="digitalhigher" disabled> Higher
@@ -712,7 +804,7 @@
             </div>
             <div>
                 <label>
-                    <input class="other" type="checkbox" name="c44" value="poli" onchange="toggleRadioButtons(this)">
+                    <input class="other" type="checkbox" name="IS" value="poli" onchange="toggleRadioButtons(this)">
                     Political Science
                     <label class="studylabel2">
                         <input type="radio" name="c45" value="polihigher" disabled> Higher
@@ -725,7 +817,7 @@
             </div>
             <div>
                 <label>
-                    <input class="other" type="checkbox" name="c47" value="history" onchange="toggleRadioButtons(this)">
+                    <input class="other" type="checkbox" name="IS" value="history" onchange="toggleRadioButtons(this)">
                     History
                     <label class="studylabel2">
                         <input type="radio" name="c48" value="science" disabled> Higher
@@ -738,7 +830,7 @@
             </div>
             <div>
                 <label>
-                    <input class="other" type="checkbox" name="c50" value="psyc" onchange="toggleRadioButtons(this)">
+                    <input class="other" type="checkbox" name="IS" value="psyc" onchange="toggleRadioButtons(this)">
                     Psychology
                     <label class="studylabel2">
                         <input type="radio" name="c51" value="psychigher" disabled> Higher
@@ -748,20 +840,22 @@
                 </label>
                 </label>
             </div>
-
+            </fieldset>
+            <fieldset class="material">
+                <legend>Other</legend>
             <div>
                 <label>
-                    <input class="essay" type="checkbox" name="c53" value="extendedessay"
+                    <input class="essay" type="checkbox" name="extendedessay" value="extendedessay"
                         onchange="toggleRadioButtons(this)"> Extended Essay
                     <label class="studylabel2">
                         <input type="radio" name="c54" value="extesgradehigher" disabled> Higher
 
-                        <input type="radio" name="c55" value="extesgradestandard" disabled> Standard
+                        <input type="radio" name="c54" value="extesgradestandard" disabled> Standard
                     </label>
                 </label>
                 </label>
             </div>
-
+            </fieldset>
         </fieldset>
         <fieldset>
             <div class="form-group">

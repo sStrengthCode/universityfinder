@@ -68,14 +68,38 @@ def recommend_university(request):
     finance = {'eco'}
     medicine = {'bio'}
     cs = {'cs', 'digital'}
+    history = {'history'}
+    geography = {'history', 'poli'}
+    biology = {'bio'}
+    linguistics = {'englisha', 'arabica'}
+    psychology = {'psyc', 'poli'}
+    interpretation = {'english', 'arabic', 'poli'}
+    digital_marketing = {'digital', 'psyc'}
+    english = {'englisha'}
+    philosophy = {'poli', 'history'}
+    nursing = {'bio', 'chem'}
+    physics = {'mathan', 'phys'}
+    business = {'eco', 'business'}
 
     if request.method == "POST":
+
         print(request.POST)
         response = []
-        for i in range(1, 56):
-            if request.POST.get('c' + str(i)):
-                response.append(request.POST.get('c' + str(i)))
+        if request.POST.get('science'):
+            response.extend([item for item in request.POST.getlist('science')])
 
+        if request.POST.get('math'):
+            response.extend([item for item in request.POST.getlist('math')])
+
+        if request.POST.get('english'):
+            response.extend([item for item in request.POST.getlist('english')])
+
+        if request.POST.get('arabic'):
+            response.extend([item for item in request.POST.getlist('arabic')])
+
+        if request.POST.get('IS'):
+            response.extend([item for item in request.POST.getlist('IS')])
+    print('hello', response)
     context = {}
     if eng.issubset(response):
         context['engineering'] = list(University.objects.filter(majors__name='Engineering').filter(
@@ -92,7 +116,57 @@ def recommend_university(request):
     if cs.issubset(response):
         context['computer science'] = list(University.objects.filter(majors__name='Computer Science').filter(
             country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
-    print(context)
+
+    if history.issubset(response):
+        context['history'] = list(University.objects.filter(majors__name='History').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+    if geography.issubset(response):
+        context['geography'] = list(University.objects.filter(majors__name='Geography').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+    if biology.issubset(response):
+        context['biology'] = list(University.objects.filter(majors__name='Biology').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+        
+    if linguistics.issubset(response):
+        context['linguistics'] = list(University.objects.filter(majors__name='Linguistics').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+    if psychology.issubset(response):
+        context['psychology'] = list(University.objects.filter(majors__name='Psychology').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+    if interpretation.issubset(response):
+        context['interpretation'] = list(University.objects.filter(majors__name='Interpretation').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+    if digital_marketing.issubset(response):
+        context['digital marketing'] = list(University.objects.filter(majors__name='Digital Marketing').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+    if english.issubset(response):
+        context['english'] = list(University.objects.filter(majors__name='English').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+    if philosophy.issubset(response):
+        context['philosophy'] = list(University.objects.filter(majors__name='Philosophy').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+    if nursing.issubset(response):
+        context['nursing'] = list(University.objects.filter(majors__name='Nursing').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+    if physics.issubset(response):
+        context['physics'] = list(University.objects.filter(majors__name='Physics').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+    if business.issubset(response):
+        context['business'] = list(University.objects.filter(majors__name='Business').filter(
+            country=request.POST.get('destination')).values_list('name', 'extraCost', 'website', flat=False))
+    
+
+    # print(context)
     for major, universities in context.items():
         print(major)
         for university in universities:

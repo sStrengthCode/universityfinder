@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!DOCTYPE html>
+    <html>
+    <title>Study Type</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+            position: relative;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        span {
+            font-size: 18px;
+            color: #666;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .logout-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        p {
+            text-align: left;
+        }
+
+        fieldset {
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            padding: 10px;
+            margin-top: 20px;
+            margin-left: 250px;
+            margin-right: 250px;
+            text-align: left;
+        }
+
+        legend {
+            font-size: 24px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .studylabel {
+            display: inline;
+
+        }
+
+        .studylabel2 {
+            margin-left: 30px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+            background-color: #0056b3;
+        }
+
+        label {
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="number"] {
+            width: 97%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .containerh1 {
+            left: 50px;
+
+        }
+    </style>
+    <script>
+        var langCount = 0;
+        var sciCount = 0;
+        var mathCount = 0;
+        var otherCount = 0;
+
+        function toggleRadioButtons(checkbox)
+        {
+            var radioButtons = checkbox.parentElement.querySelectorAll('input[type="radio"]');
+            var sciences = document.querySelectorAll(".sciencesub");
+
+            for (var i = 0; i < radioButtons.length; i++)
+            {
+                radioButtons[i].disabled = !checkbox.checked;
+            }
+            if (stream === "science")
+            {
+                if (checkbox.className === 'sciencesub')
+                {
+                    radioButtons[0].checked = true;
+                    radioButtons[0].disabled = true;
+                    radioButtons[1].disabled = true;
+                }
+
+                else if (checkbox.className === 'language')
+                {
+
+                }
+            }
+
+            if (checkbox.checked)
+            {
+                if (checkbox.className === "sciencesub")
+                {
+                    sciCount++;
+                }
+
+                else if (checkbox.className === "language")
+                {
+                    langCount++;
+                }
+
+                else if (checkbox.className === "math")
+                {
+                    mathCount++;
+                }
+
+                else if (checkbox.className === "other")
+                {
+                    otherCount++;
+                }
+            }
+            else
+            {
+                if (checkbox.className === "sciencesub")
+                {
+                    sciCount--;
+                }
+
+                else if (checkbox.className === "language")
+                {
+                    langCount--;
+                }
+
+                else if (checkbox.className === "math")
+                {
+                    mathCount--;
+                }
+
+                else if (checkbox.className === "other")
+                {
+                    otherCount--;
+                }
+            }
+
+            // Bug here. science count is being incremented twice
+            remaining();
+
+        }
+
+        function remaining()
+        {
+            const languages = document.querySelectorAll(".language");
+            const sciencesubs = document.querySelectorAll(".sciencesub");
+            const others = document.querySelectorAll(".other");
+            const maths = document.querySelectorAll(".math");
+            const science = document.getElementById("science");
+            const art = document.getElementById("art");
+            const output = document.getElementById("output");
+            const arrs = [science, art, ...languages, ...sciencesubs, ...others, ...maths]
+            let mathCount = 0;
+            let sciencesubCount = 0;
+            let languageCount = 0;
+            let otherCount = 0;
+
+
+            function updateMathCount()
+            {
+                mathCount = 0;
+                maths.forEach(function (math)
+                {
+                    if (math.checked)
+                    {
+                        mathCount++;
+                    }
+                });
+            }
+
+            function updateScienceCount()
+            {
+                sciencesubCount = 0;
+                sciencesubs.forEach(function (sciencesub)
+                {
+                    if (sciencesub.checked)
+                    {
+                        sciencesubCount++;
+                    }
+                });
+            }
+
+            function updateLanguageCount()
+            {
+                languageCount = 0;
+                languages.forEach(function (language)
+                {
+                    if (language.checked)
+                    {
+                        languageCount++;
+                    }
+                });
+            }
+
+            languages.forEach(function (language)
+            {
+                language.addEventListener("change", function ()
+                {
+                    if (language.checked)
+                    {
+                        languageCount++;
+                    }
+                    else
+                    {
+                        languageCount--;
+                    }
+                });
+                updateLanguageCount();
+                setText();
+            });
+
+            function updateotherCount()
+            {
+                otherCount = 0;
+                others.forEach(function (other)
+                {
+                    if (other.checked)
+                    {
+                        otherCount++;
+                    }
+                });
+            }
+
+            others.forEach(function (other)
+            {
+                other.addEventListener("change", function ()
+                {
+                    if (other.checked)
+                    {
+                        otherCount++;
+                    }
+                    else
+                    {
+                        otherCount--;
+                    }
+                });
+                updateotherCount();
+                setText();
+            });
+
+            maths.forEach(function (math)
+            {
+                math.addEventListener("change", function ()
+                {
+                    if (math.checked)
+                    {
+                        mathCount++;
+                    }
+                    else
+                    {
+                        mathCount--;
+                    }
+                });
+                updateMathCount();
+                setText();
+            });
+
+            sciencesubs.forEach(function (sciencesub)
+            {
+                sciencesub.addEventListener("change", function ()
+                {
+                    if (sciencesub.checked)
+                    {
+                        sciencesubCount++;
+                    }
+                    else
+                    {
+                        sciencesubCount--;
+                    }
+                });
+                updateScienceCount();
+                setText();
+            });
+
+        }
+
+        function disablecheckbox(checkbox_)
+        {
+            const checkbox = document.querySelector('input[name="extendedessay"]');
+            if (checkbox)
+            {
+                checkbox.disabled = true;
+                checkbox.checked = false;
+                var radioButtons = checkbox.parentElement.querySelectorAll('input[type="radio"]');
+                for (var i = 0; i < radioButtons.length; i++)
+                {
+                    radioButtons[i].disabled = !checkbox.checked;
+                    radioButtons[i].checked = false;
+                }
+            }
+        }
+
+        function enablecheckbox(checkbox_)
+        {
+            const checkbox = document.querySelector('input[name="extendedessay"]');
+            if (checkbox)
+            {
+                checkbox.disabled = false;
+            }
+        }
+
+        function setText()
+        {
+            const science = document.getElementById("science");
+            const art = document.getElementById("art");
+            const diploma = document.querySelector('input[name="c3"][value="diploma"]');
+            const course = document.querySelector('input[name="c3"][value="course"]');
+
+            if (science.checked)
+            {
+                art.disabled = true;
+                stream = "science";
+            }
+            else if (art.checked)
+            {
+                science.disabled = true;
+                stream = "art";
+            }
+            else
+            {
+                science.disabled = false;
+                art.disabled = false;
+            }
+
+
+            if (diploma.checked)
+            {
+                course.disabled = true;
+                studytype = "diploma";
+            }
+
+            else if (course.checked)
+            {
+                diploma.disabled = true;
+                studytype = "course";
+            }
+
+            //     arrs.forEach(function(arr) {
+            //     arr.addEventListener("click", function() {
+            //     if (science.checked) {
+            //         output.innerHTML = `language subjects remaining: ${2 - languageCount}<br>`;
+            //         output.innerHTML += `Science subjects remaining: ${2 - sciencesubCount}<br>`;
+            //         output.innerHTML += `Math subjects remaining: ${1 - mathCount}<br>`;
+            //         output.innerHTML += `Extracurricular subjects remaining: ${1 - otherCount}<br>`;
+            //     }
+
+            //     if (art.checked) {
+            //         output.innerHTML = `language subjects remaining: ${2 - languageCount}<br>`;
+            //         output.innerHTML += `Science subjects remaining: ${1 - sciencesubCount}<br>`;
+            //         output.innerHTML += `Math subjects remaining: ${1 - mathCount}<br>`;
+            //         output.innerHTML += `Extracurricular subjects remaining: ${2 - otherCount}<br>`;
+            //     }
+            //     });
+            // });
+            restrict();
+        }
+
+        function restrict()
+        {
+            const english = document.querySelectorAll('input[name="english"]');
+            const arabic = document.querySelectorAll('input[name="arabic"]');
+            const sciencesubs = document.querySelectorAll(".sciencesub");
+            const maths = document.querySelectorAll(".math");
+            const others = document.querySelectorAll(".other");
+            // set restrictions
+
+            if (stream === "science")
+            {
+                langLimit = 2;
+                sciLimit = 2;
+                mathLimit = 1;
+                otherLimit = 1;
+            }
+            else 
+            {
+                langLimit = 2;
+                sciLimit = 1;
+                mathLimit = 1;
+                otherLimit = 2;
+            }
+
+            if (studytype === "course")
+            {
+                englisha.disabled = true;
+                arabica.disabled = true;
+            }
+
+            if (stream === 'science')
+            {
+                const engCount = english[0].checked + english[1].checked;
+                const arabCount = arabic[0].checked + arabic[1].checked;
+                if(engCount === 1)
+                {
+                    if(english[0].checked)
+                        english[1].disabled = true;
+                    else
+                        english[0].disabled = true;
+                }
+
+                if(arabCount === 1)
+                {
+                    if(arabic[0].checked)
+                        arabic[1].disabled = true;
+                    else
+                        arabic[0].disabled = true;
+                }
+
+                if(sciCount === 2)
+                {
+                    sciencesubs.forEach(function(sciencesub)
+                    {
+                        if(!sciencesub.checked)
+                        {
+                            sciencesub.disabled = true;
+                        }
+                    });
+                }
+
+                if(mathCount === 1)
+                {
+                    if(maths[0].checked)
+                        maths[1].disabled = true;
+                    else
+                        maths[0].disabled = true;
+                }
+
+                if(otherCount === 1)
+                {
+                    others.forEach(function(other)
+                    {
+                        if(!other.checked)
+                        {
+                            other.disabled = true;
+                        }
+                    });
+                }
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="containerh1">
+        <h1 id="output">IB University Finder</h1>
+    </div>
+    <form method="POST" action="{% url 'recommend_university' %}">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Select your stream:</legend>
+            <label class>
+                <input type="radio" name="c1" value="science" id="science" onchange="setText(this)"> Science
+            </label>
+            <label>
+                <input type="radio" name="c1" value="art" id="art" onchange="setText(this)"> Art
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Select your study type:</legend>
+            <label>
+                <input type="radio" name="c3" value="diploma" onchange="setText(this)"> Diploma
+            </label>
+            <label>
+                <input type="radio" name="c3" value="course" onchange="setText(this)"> Course
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Select your subjects:</legend>
+            <div>
+                <label class="container">
+                    <input class="language" type="checkbox" name="english" value="englisha"
+                        onchange="toggleRadioButtons(this)"> English A
+
+                    <label class="studylabel2">
+                        <input type="radio" name="c6" value="eahigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c6" value="eastandard" disabled> Standard
+                        </label>
+                    </label>
+            </div>
+            </label>
+            <div>
+                <label>
+                    <input class="language" type="checkbox" name="english" value="englishb"
+                        onchange="toggleRadioButtons(this)"> English B
+                    <label class="studylabel2">
+                        <input type="radio" name="c8" value="ebhigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c8" value="ebstandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="language" type="checkbox" name="arabic" value="arabica"
+                        onchange="toggleRadioButtons(this)"> Arabic A
+                    <label class="studylabel2">
+                        <input type="radio" name="c12" value="aahigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c12" value="aastandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <label>
+                <input class="language" type="checkbox" name="arabic" value="arabicb"
+                    onchange="toggleRadioButtons(this)">
+                Arabic B
+                <label class="studylabel2">
+                    <input type="radio" name="c15" value="abhigher" disabled> Higher
+
+                    <label class="studylabel">
+                        <input type="radio" name="c15" value="abstandard" disabled> Standard
+                    </label>
+                </label>
+            </label>
+            <div>
+
+            </div>
+            <div>
+                <label>
+                    <input class="sciencesub" type="checkbox" name="science" value="cs"
+                        onchange="toggleRadioButtons(this)"> Computer Science
+                    <label class="studylabel2">
+                        <input type="radio" name="c21" value="cshigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c21" value="csstandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="sciencesub" type="checkbox" name="science" value="bio"
+                        onchange="toggleRadioButtons(this)"> Biology
+                    <label class="studylabel2">
+                        <input type="radio" name="c24" value="biohigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c24" value="biostandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="sciencesub" type="checkbox" name="science" value="chem"
+                        onchange="toggleRadioButtons(this)"> Chemistry
+                    <label class="studylabel2">
+                        <input type="radio" name="c27" value="chemhigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c27" value="chemstandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="sciencesub" type="checkbox" name="science" value="phys"
+                        onchange="toggleRadioButtons(this)"> Pyhsics
+                    <label class="studylabel2">
+                        <input type="radio" name="c30" value="physhigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c30" value="physstandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    <input class="math" type="checkbox" name="c35" value="mathan" onchange="toggleRadioButtons(this)">
+                    Math Analysis
+                    <label class="studylabel2">
+                        <input type="radio" name="c36" value="mathnahigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c36" value="mathnastandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="math" type="checkbox" name="c38" value="mathap" onchange="toggleRadioButtons(this)">
+                    Math Application
+                    <label class="studylabel2">
+                        <input type="radio" name="c39" value="mathaphigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c39" value="mathapstandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="other" type="checkbox" name="c17" value="business"
+                        onchange="toggleRadioButtons(this)"> Business
+                    <label class="studylabel2">
+                        <input type="radio" name="c18" value="businesshigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c18" value="businessstandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="other" type="checkbox" name="c32" value="eco" onchange="toggleRadioButtons(this)">
+                    Economics
+                    <label class="studylabel2">
+                        <input type="radio" name="c33" value="ecohigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c33" value="echostandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="other" type="checkbox" name="c41" value="digital" onchange="toggleRadioButtons(this)">
+                    Digital Society
+                    <label class="studylabel2">
+                        <input type="radio" name="c42" value="digitalhigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c42" value="digitalstandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="other" type="checkbox" name="c44" value="poli" onchange="toggleRadioButtons(this)">
+                    Political Science
+                    <label class="studylabel2">
+                        <input type="radio" name="c45" value="polihigher" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c45" value="polistandard" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="other" type="checkbox" name="c47" value="history" onchange="toggleRadioButtons(this)">
+                    History
+                    <label class="studylabel2">
+                        <input type="radio" name="c48" value="science" disabled> Higher
+
+                        <label class="studylabel">
+                            <input type="radio" name="c48" value="science" disabled> Standard
+                        </label>
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="other" type="checkbox" name="c50" value="psyc" onchange="toggleRadioButtons(this)">
+                    Psychology
+                    <label class="studylabel2">
+                        <input type="radio" name="c51" value="psychigher" disabled> Higher
+
+                        <input type="radio" name="c51" value="psycstandard" disabled> Standard
+                    </label>
+                </label>
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    <input class="essay" type="checkbox" name="c53" value="extendedessay"
+                        onchange="toggleRadioButtons(this)"> Extended Essay
+                    <label class="studylabel2">
+                        <input type="radio" name="c54" value="extesgradehigher" disabled> Higher
+
+                        <input type="radio" name="c55" value="extesgradestandard" disabled> Standard
+                    </label>
+                </label>
+                </label>
+            </div>
+
+        </fieldset>
+        <fieldset>
+            <div class="form-group">
+                <label for="score">GPA:</label>
+                <input type="number" id="score" name="score" required>
+            </div>
+            <div class="form-group">
+                <label for="destination">Select the destination:</label>
+                <select id="destination" name="destination" required>
+                    <option value="USA">USA</option>
+                    <option value="UK">UK</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Germany">Germany</option>
+                    <option value="UAE">UAE</option>
+                    <option value="Jordan">Jordan</option>
+                    <option value="Russia">Russia</option>
+                    <option value="Cyprus">Cyprus</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Spain">Spain</option>
+                </select>
+            </div>
+        </fieldset>
+        <button type="submit">Show Universities</button>
+    </form>
+</body>
+
+</html>

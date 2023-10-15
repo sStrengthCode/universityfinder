@@ -53,14 +53,18 @@
         top: 10px;
         right: 10px;
       }
+
+      .IB{
+        margin-bottom: 150px;
+      }
     </style>
   </head>
   <body>
     <a class="logout-link" href="{% url 'logout' %}">Logout</a>
-    <h1>
-      IB University Finder <br /><br /><br /><br /><br /><br /><br />Welcome, {{
-      context.user }}!
+    <h1 class="IB">
+      IB University Finder
     </h1>
+    <h1> Welcome, {{ user }}!</h1>
     <span>Find out the best-fit university based on your features!</span>
     <br />
     <button id="get-started">Let's get started!</button>

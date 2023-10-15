@@ -47,10 +47,6 @@ def loginPage(request):
     return render(request, 'authenticate/login.html')
 
 
-@login_required(login_url='login')
-def welcome(request):
-    return render(request, 'application/welcome.html')
-
 
 def logoutUser(request):
     logout(request)
@@ -86,7 +82,7 @@ def recommend_university(request):
     business = {'eco', 'business'}
 
     if request.method == "POST":
-
+        print(request.POST)
         global additional
         additional = []
         response = []

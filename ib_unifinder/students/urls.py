@@ -13,4 +13,5 @@ urlpatterns = [
     path('selection/', views.selection, name='selection'),
     path('api/', views.get_data, name='api'),
     path('subjects/', views.subjects, name='subjects'),
+    path('final/', views.final, name='final')
 ]

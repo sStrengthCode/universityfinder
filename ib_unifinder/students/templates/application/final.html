@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;         
+        }
+
+        h1 {
+            text-align: center;
+            justify-content: flex;
+        }
+
+        h2 {
+            text-align: center;
+            justify-content: flex;
+
+        }
+
+        a:hover {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>IB University Finder</h1>
+    <br>
+    <h1 style="color: blue">Congratulations for choosing {{ context.uni }}!</h1>
+    <br>
+    <br>
+    <h2>Total Annual Fees is: {{ context.cost }} </h2>
+    <!-- {% for i in context %}
+        {% if i != 'uni' %}
+            <h1>{{ i }} </h1>
+        {% endif %}
+    {% endfor %} -->
+    <br>
+    <a href={{context.website}}><h2>Visit the university website here</h2></h2>
+</body>
+</html>

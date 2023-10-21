@@ -1,0 +1,27 @@
+# Python
+*.pyc
+__pycache__/
+.env
+
+# Logs
+*.log
+
+# Databases
+*.db
+*.sqlite3
+
+# Backups
+*.bak
+
+# Vim
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Node.js
+node_modules/
+
+# Python virtual environment
+venv/

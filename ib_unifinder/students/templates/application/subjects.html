@@ -7,587 +7,397 @@
     <!DOCTYPE html>
     <html>
     <title>Study Type</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            padding: 20px;
-            position: relative;
-            font-weight: bold;
-        }
-
-        h1 {
-            font-size: 36px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        span {
-            font-size: 18px;
-            color: #666;
-        }
-
-        button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 20px;
-            cursor: pointer;
-            margin-top: 20px;
-            border-radius: 5px;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .logout-link {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        p {
-            text-align: left;
-        }
-
-        fieldset {
-            border: 1px solid #ddd;
-            border-radius: 9px;
-            padding: 10px;
-            margin-top: 20px;
-            margin-left: 250px;
-            margin-right: 250px;
-            text-align: left;
-        }
-
-        .material {
-            margin-left: 30px;
-            margin-right: 30px;
-        }
-
-        legend {
-            font-size: 24px;
-            color: #333;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        input[type="radio"] {
-            margin-right: 5px;
-        }
-
-        .studylabel {
-            display: inline;
-
-        }
-
-        .studylabel2 {
-            margin-left: 30px;
-            margin-top: 5px;
-            margin-bottom: 20px;
-        }
-
-        input[type="checkbox"] {
-            margin-right: 5px;
-            background-color: #0056b3;
-        }
-
-        label {
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        input[type="number"] {
-            width: 97%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .containerh1 {
-            left: 50px;
-
-        }
-    </style>
     <script>
-        var langCount = 0;
+        
         var sciCount = 0;
         var mathCount = 0;
         var otherCount = 0;
 
+
+        // Function that will be activated when the user clicks on a checkbox
         function toggleRadioButtons(checkbox)
         {
-            var radioButtons = checkbox.parentElement.querySelectorAll('input[type="radio"]');
-            var sciences = document.querySelectorAll(".sciencesub");
+            var radioButtons = checkbox.parentElement.querySelectorAll('input[type="radio"]'); // Get all radio buttons in the same fieldset as the checkbox
+            var sciences = document.querySelectorAll(".sciencesub"); // Get all science subjects
 
+            // Disable radio buttons if clicked
             for (var i = 0; i < radioButtons.length; i++)
             {
                 radioButtons[i].disabled = !checkbox.checked;
             }
             if (stream === "science")
             {
+                // Set restrictions as provided by the IB. if the user selects science as their stream, science subjects are higher.
                 if (checkbox.className === 'sciencesub')
                 {
-                    radioButtons[0].checked = true;
-                    radioButtons[0].disabled = true;
-                    radioButtons[1].disabled = true;
+                    radioButtons[0].checked = true; // subject is set to higher
+                    radioButtons[0].disabled = true; // subject can't be changed
+                    radioButtons[1].disabled = true; // disable standard
                 }
             }
             else if (stream === "art")
             {
+                // Set restrictions as provided by the IB. if the user selects art as their stream, science subjects are standard, Individuals and Societies are higher
                 if (checkbox.className === 'sciencesub')
                 {
-                    radioButtons[1].checked = true;
-                    radioButtons[0].disabled = true;
-                    radioButtons[1].disabled = true;
+                    radioButtons[1].checked = true; // subject is set to standard
+                    radioButtons[0].disabled = true; // subject can't be changed
+                    radioButtons[1].disabled = true; // disable higher
                 }
-                if (checkbox.className === "other")
+                else if (checkbox.className === "other")
                 {
-                    radioButtons[0].checked = true;
-                    radioButtons[0].disabled = true;
-                    radioButtons[1].disabled = true;
+                    radioButtons[0].checked = true; // subject is set to higher
+                    radioButtons[0].disabled = true; // subject can't be changed
+                    radioButtons[1].disabled = true; // disable standard
                 }
             }
 
-            if (checkbox.checked)
+            // Keep track of which subjects are selected, for restrictions purposes
+            if (checkbox.checked) // If the checkbox is checked, then increase, if unchecked, then decrease
             {
                 if (checkbox.className === "sciencesub")
                 {
+                    // increase science subjects count
                     sciCount++;
-                }
-
-                else if (checkbox.className === "language")
-                {
-                    langCount++;
                 }
 
                 else if (checkbox.className === "math")
                 {
+                    // increase math subjects count
                     mathCount++;
                 }
 
                 else if (checkbox.className === "other")
                 {
+                    // increase Individuals and Societies subjects count
                     otherCount++;
                 }
             }
-            else
+            else // Unchecked
             {
                 if (checkbox.className === "sciencesub")
                 {
+                    // decrease science subjects count
                     sciCount--;
-                }
-
-                else if (checkbox.className === "language")
-                {
-                    langCount--;
                 }
 
                 else if (checkbox.className === "math")
                 {
+                    // decrease math subjects count
                     mathCount--;
                 }
 
                 else if (checkbox.className === "other")
                 {
+                    // decrease Individuals and Societies subjects count
                     otherCount--;
                 }
             }
 
-            // Bug here. science count is being incremented twice
-            remaining();
+            setText(); // Call setText function
 
         }
 
-        function remaining()
-        {
-            const languages = document.querySelectorAll(".language");
-            const sciencesubs = document.querySelectorAll(".sciencesub");
-            const others = document.querySelectorAll(".other");
-            const maths = document.querySelectorAll(".math");
-            const science = document.getElementById("science");
-            const art = document.getElementById("art");
-            const output = document.getElementById("output");
-            const arrs = [science, art, ...languages, ...sciencesubs, ...others, ...maths]
-            let mathCount = 0;
-            let sciencesubCount = 0;
-            let languageCount = 0;
-            let otherCount = 0;
+        // function remaining()
+        // {
+        //     const languages = document.querySelectorAll(".language"); // Get all language subjects
+        //     const sciencesubs = document.querySelectorAll(".sciencesub"); // Get all science subjects
+        //     const others = document.querySelectorAll(".other"); // Get all Individuals and Societies subjects
+        //     const maths = document.querySelectorAll(".math"); // Get all math subjects
+        //     const science = document.getElementById("science"); // Get the science radio button
+        //     const art = document.getElementById("art"); // Get the art radio button
+        //     const output = document.getElementById("output"); // Get the output element
+            
+        //     // let mathCount = 0;
+        //     // let sciencesubCount = 0;
+        //     // let languageCount = 0;
+        //     // let otherCount = 0;
 
 
-            function updateMathCount()
-            {
-                mathCount = 0;
-                maths.forEach(function (math)
-                {
-                    if (math.checked)
-                    {
-                        mathCount++;
-                    }
-                });
-            }
+        //     // function updateMathCount()
+        //     // {
+        //     //     mathCount = 0;
+        //     //     maths.forEach(function (math)
+        //     //     {
+        //     //         if (math.checked)
+        //     //         {
+        //     //             mathCount++;
+        //     //         }
+        //     //     });
+        //     // }
 
-            function updateScienceCount()
-            {
-                sciencesubCount = 0;
-                sciencesubs.forEach(function (sciencesub)
-                {
-                    if (sciencesub.checked)
-                    {
-                        sciencesubCount++;
-                    }
-                });
-            }
+        //     // function updateScienceCount()
+        //     // {
+        //     //     sciencesubCount = 0;
+        //     //     sciencesubs.forEach(function (sciencesub)
+        //     //     {
+        //     //         if (sciencesub.checked)
+        //     //         {
+        //     //             sciencesubCount++;
+        //     //         }
+        //     //     });
+        //     // }
 
-            function updateLanguageCount()
-            {
-                languageCount = 0;
-                languages.forEach(function (language)
-                {
-                    if (language.checked)
-                    {
-                        languageCount++;
-                    }
-                });
-            }
+        //     // function updateLanguageCount()
+        //     // {
+        //     //     languageCount = 0;
+        //     //     languages.forEach(function (language)
+        //     //     {
+        //     //         if (language.checked)
+        //     //         {
+        //     //             languageCount++;
+        //     //         }
+        //     //     });
+        //     // }
 
-            languages.forEach(function (language)
-            {
-                language.addEventListener("change", function ()
-                {
-                    if (language.checked)
-                    {
-                        languageCount++;
-                    }
-                    else
-                    {
-                        languageCount--;
-                    }
-                });
-                updateLanguageCount();
-                setText();
-            });
+        //     // languages.forEach(function (language)
+        //     // {
+        //     //     language.addEventListener("change", function ()
+        //     //     {
+        //     //         if (language.checked)
+        //     //         {
+        //     //             languageCount++;
+        //     //         }
+        //     //         else
+        //     //         {
+        //     //             languageCount--;
+        //     //         }
+        //     //     });
+        //     //     updateLanguageCount();
+        //     //     setText();
+        //     // });
 
-            function updateotherCount()
-            {
-                otherCount = 0;
-                others.forEach(function (other)
-                {
-                    if (other.checked)
-                    {
-                        otherCount++;
-                    }
-                });
-            }
+        //     // function updateotherCount()
+        //     // {
+        //     //     otherCount = 0;
+        //     //     others.forEach(function (other)
+        //     //     {
+        //     //         if (other.checked)
+        //     //         {
+        //     //             otherCount++;
+        //     //         }
+        //     //     });
+        //     // }
 
-            others.forEach(function (other)
-            {
-                other.addEventListener("change", function ()
-                {
-                    if (other.checked)
-                    {
-                        otherCount++;
-                    }
-                    else
-                    {
-                        otherCount--;
-                    }
-                });
-                updateotherCount();
-                setText();
-            });
+        //     // others.forEach(function (other)
+        //     // {
+        //     //     other.addEventListener("change", function ()
+        //     //     {
+        //     //         if (other.checked)
+        //     //         {
+        //     //             otherCount++;
+        //     //         }
+        //     //         else
+        //     //         {
+        //     //             otherCount--;
+        //     //         }
+        //     //     });
+        //     //     updateotherCount();
+        //     //     setText();
+        //     // });
 
-            maths.forEach(function (math)
-            {
-                math.addEventListener("change", function ()
-                {
-                    if (math.checked)
-                    {
-                        mathCount++;
-                    }
-                    else
-                    {
-                        mathCount--;
-                    }
-                });
-                updateMathCount();
-                setText();
-            });
+        //     // maths.forEach(function (math)
+        //     // {
+        //     //     math.addEventListener("change", function ()
+        //     //     {
+        //     //         if (math.checked)
+        //     //         {
+        //     //             mathCount++;
+        //     //         }
+        //     //         else
+        //     //         {
+        //     //             mathCount--;
+        //     //         }
+        //     //     });
+        //     //     updateMathCount();
+        //     //     setText();
+        //     // });
 
-            sciencesubs.forEach(function (sciencesub)
-            {
-                sciencesub.addEventListener("change", function ()
-                {
-                    if (sciencesub.checked)
-                    {
-                        sciencesubCount++;
-                    }
-                    else
-                    {
-                        sciencesubCount--;
-                    }
-                });
-                updateScienceCount();
-                setText();
-            });
-
-        }
-
-        function disablecheckbox(checkbox_)
-        {
-            const checkbox = document.querySelector('input[name="extendedessay"]');
-            if (checkbox)
-            {
-                checkbox.disabled = true;
-                checkbox.checked = false;
-                var radioButtons = checkbox.parentElement.querySelectorAll('input[type="radio"]');
-                for (var i = 0; i < radioButtons.length; i++)
-                {
-                    radioButtons[i].disabled = !checkbox.checked;
-                    radioButtons[i].checked = false;
-                }
-            }
-        }
-
-        function enablecheckbox(checkbox_)
-        {
-            const checkbox = document.querySelector('input[name="extendedessay"]');
-            if (checkbox)
-            {
-                checkbox.disabled = false;
-            }
-        }
+        //     // sciencesubs.forEach(function (sciencesub)
+        //     // {
+        //     //     sciencesub.addEventListener("change", function ()
+        //     //     {
+        //     //         if (sciencesub.checked)
+        //     //         {
+        //     //             sciencesubCount++;
+        //     //         }
+        //     //         else
+        //     //         {
+        //     //             sciencesubCount--;
+        //     //         }
+        //     //     });
+        //     //     updateScienceCount();
+        //     //     
+        //     // });
+        //     setText();
+        // }
 
         function setText()
         {
-            const science = document.getElementById("science");
-            const art = document.getElementById("art");
-            const diploma = document.querySelector('input[name="c3"][value="diploma"]');
-            const course = document.querySelector('input[name="c3"][value="course"]');
-            const english = document.querySelectorAll('input[name="english"]');
-            const arabic = document.querySelectorAll('input[name="arabic"]');
-            const extendedessay = document.querySelector('input[name="extendedessay"]');
+            const science = document.getElementById("science"); // Get the science radio button (the very first one)
+            const art = document.getElementById("art"); // Get the art radio button
+            const diploma = document.querySelector('input[name="c3"][value="diploma"]'); // Get the diploma radio button
+            const course = document.querySelector('input[name="c3"][value="course"]'); // Get the course radio button
+            const english = document.querySelectorAll('input[name="english"]'); // Get all english radio buttons
+            const arabic = document.querySelectorAll('input[name="arabic"]'); // Get all arabic radio buttons
+            const extendedessay = document.querySelector('input[name="extendedessay"]'); // Get the extended essay checkbox
 
-            if (science.checked)
+            if (science.checked) // If the science radio button is checked, then set the stream to science and disable the art radio button
             {
                 art.disabled = true;
                 stream = "science";
             }
-            else if (art.checked)
+            else if (art.checked) // If the art radio button is checked, then set the stream to art and disable the science radio button
             {
                 science.disabled = true;
                 stream = "art";
             }
-            else
+            else // If neither of the radio buttons are checked, then enable both of them
             {
                 science.disabled = false;
                 art.disabled = false;
             }
 
-
-            if (diploma.checked)
+            if (diploma.checked) // If the diploma radio button is checked then disable the course button
             {
                 course.disabled = true;
             }
 
-            else if (course.checked)
+            else if (course.checked) // If the course radio button is checked then disable the diploma button
             {
+                
                 diploma.disabled = true;
-                english[0].disabled = true;
-                arabic[0].disabled = true;
-                extendedessay.disabled = true;
             }
 
-            //     arrs.forEach(function(arr) {
-            //     arr.addEventListener("click", function() {
-            //     if (science.checked) {
-            //         output.innerHTML = `language subjects remaining: ${2 - languageCount}<br>`;
-            //         output.innerHTML += `Science subjects remaining: ${2 - sciencesubCount}<br>`;
-            //         output.innerHTML += `Math subjects remaining: ${1 - mathCount}<br>`;
-            //         output.innerHTML += `Extracurricular subjects remaining: ${1 - otherCount}<br>`;
-            //     }
-
-            //     if (art.checked) {
-            //         output.innerHTML = `language subjects remaining: ${2 - languageCount}<br>`;
-            //         output.innerHTML += `Science subjects remaining: ${1 - sciencesubCount}<br>`;
-            //         output.innerHTML += `Math subjects remaining: ${1 - mathCount}<br>`;
-            //         output.innerHTML += `Extracurricular subjects remaining: ${2 - otherCount}<br>`;
-            //     }
-            //     });
-            // });
-            restrict();
+            restrict(); // Call restrict function
         }
 
-        function restrict()
+        function restrict() // This function will restrict the user to the IB standards.
         {
-            const english = document.querySelectorAll('input[name="english"]');
-            const arabic = document.querySelectorAll('input[name="arabic"]');
-            const sciencesubs = document.querySelectorAll(".sciencesub");
-            const maths = document.querySelectorAll(".math");
-            const others = document.querySelectorAll(".other");
-            const extendedessay = document.querySelector('input[name="extendedessay"]');
-            // set restrictions
-
-            if (stream === "science")
-            {
-                langLimit = 2;
-                sciLimit = 2;
-                mathLimit = 1;
-                otherLimit = 1;
-            }
-            else 
-            {
-                langLimit = 2;
-                sciLimit = 1;
-                mathLimit = 1;
-                otherLimit = 2;
-            }
-
-
+            const english = document.querySelectorAll('input[name="english"]'); // Get all english radio buttons
+            const arabic = document.querySelectorAll('input[name="arabic"]'); // Get all arabic radio buttons
+            const sciencesubs = document.querySelectorAll(".sciencesub"); // Get all science subjects
+            const maths = document.querySelectorAll(".math"); // Get all math subjects
+            const others = document.querySelectorAll(".other"); // Get all Individuals and Societies subjects
+            const extendedessay = document.querySelector('input[name="extendedessay"]'); // Get the extended essay checkbox
+            
             if (stream === 'science')
             {
-                const engCount = english[0].checked + english[1].checked;
-                const arabCount = arabic[0].checked + arabic[1].checked;
-                if (engCount === 1)
+                const engCount = english[0].checked + english[1].checked; // Get the number of english subjects selected
+                const arabCount = arabic[0].checked + arabic[1].checked; // Get the number of arabic subjects selected
+                if (engCount === 1) // If any of the english subjects is selected
                 {
-                    if (english[0].checked)
+                    if (english[0].checked) // If english A is selected
                     {
-                        english[1].disabled = true; 
-                        english[0].disabled = true;
-                        arabic[0].disabled = true;
+                        english[1].disabled = true; // Disable english B
+                        english[0].disabled = true; // Disable english A
+                        arabic[0].disabled = true; // Disable arabic A
                     }
 
-                    if(english[1].checked)
+                    else if(english[1].checked) // If english B is selected
                     {
-                        english[0].disabled = true;
-                        english[1].disabled = true;
-                        arabic[1].disabled = true;
+                        english[0].disabled = true; // Disable english A
+                        english[1].disabled = true; // Disable english B
+                        arabic[1].disabled = true; // Disable arabic B
                     }
 
                 }
 
-                if (arabCount === 1)
+                if (arabCount === 1) // If any of the arabic subjects is selected
                 {
-                    if (arabic[0].checked)
+                    if (arabic[0].checked) // If arabic A is selected
                     {
-                        arabic[1].disabled = true; 
-                        arabic[0].disabled = true;
-                        english[0].disabled = true;
+                        arabic[1].disabled = true;  // Disable arabic B
+                        arabic[0].disabled = true; // Disable arabic A
+                        english[0].disabled = true; // Disable english A
                     }
 
-                    if(arabic[1].checked)
+                    else if(arabic[1].checked) // If arabic B is selected
                     {
-                        arabic[0].disabled = true;
-                        arabic[1].disabled = true;
-                        english[1].disabled = true;
+                        arabic[0].disabled = true; // Disable arabic A
+                        arabic[1].disabled = true; // Disable arabic B 
+                        english[1].disabled = true; // Disable english B
                     }
 
                 }
 
-                if (sciCount === 2)
+                if (sciCount === 2) // If two science subjects are selected 
                 {
-                    sciencesubs.forEach(function (sciencesub)
+                    sciencesubs.forEach(function (sciencesub) // Loop through all science subjects
                     {
-                        sciencesub.disabled = true;
+                        sciencesub.disabled = true; // and disalbe them
                     });
                 }
 
-                if (mathCount === 1)
+                if (mathCount === 1) // If one math subject is selected
                 {
+                    maths[1].disabled = true; // Disable the other math subject
+                    maths[0].disabled = true; // Disable the selected math subject
+                }
+
+                if (otherCount === 1) // If one Individuals and Societies subject is selected
+                {
+                    others.forEach(function (other) // Loop through all Individuals and Societies subjects
+                    {
+                        other.disabled = true; // and disable them
+                    });
+                }
+
+                if (extendedessay.checked) // If the extended essay checkbox is checked
+                {
+                    extendedessay.disabled = true; // Disable it
+                }
+            }
+
+            else if (stream === 'art') // If the art radio button is checked
+            {
+                const engCount = english[0].checked + english[1].checked; // Get the number of english subjects selected
+                const arabCount = arabic[0].checked + arabic[1].checked; // Get the number of arabic subjects selected
+                
+                if (engCount === 1) // If any of the english subjects is selected
+                {
+                    if (english[0].checked) // if English A is selected
+                    {
+                        english[1].disabled = true; // Disable English B
+                        english[0].disabled = true; // Disable English A
+                    }
+
+                }
+
+                if (arabCount === 1) // If any of the arabic subjects is selected
+                {
+                    if (arabic[0].checked) // If arabic A is selected
+                    {
+                        arabic[1].disabled = true; // Disable arabic B
+                        arabic[0].disabled = true; // Disable arabic A
+                    }
+
+                }
+
+                if (sciCount === 1) // If one science subject is selected (max limit for art students)
+                {
+                    sciencesubs.forEach(function (sciencesub) // Loop through all science subjects
+                    {
+                        sciencesub.disabled = true; // and disable them
+                    });
+                }
+
+                if (mathCount === 1) // If one math subject is selected disable them
+                {    
                     maths[1].disabled = true;
                     maths[0].disabled = true;
                 }
 
-                if (otherCount === 1)
+                if (otherCount === 2) // If two Individuals and Societies subjects are selected
                 {
-                    others.forEach(function (other)
+                    others.forEach(function (other) // Loop through all Individuals and Societies subjects
                     {
-                        other.disabled = true;
+                        other.disabled = true; // and disable them
                     });
                 }
-                if (extendedessay.checked)
+                if (extendedessay.checked) // If the extended essay checkbox is checked
                 {
-                    extendedessay.disabled = true;
-                }
-            }
-
-            else if (stream === 'art')
-            {
-                const engCount = english[0].checked + english[1].checked;
-                const arabCount = arabic[0].checked + arabic[1].checked;
-                if (engCount === 1)
-                {
-                    if (english[0].checked)
-                    {
-                        english[1].disabled = true;
-                        english[0].disabled = true;
-                    }
-
-                }
-
-                if (arabCount === 1)
-                {
-                    if (arabic[0].checked)
-                    {
-                        arabic[1].disabled = true;
-                        arabic[0].disabled = true;
-                    }
-
-                }
-
-                if (sciCount === 1)
-                {
-                    sciencesubs.forEach(function (sciencesub)
-                    {
-                        sciencesub.disabled = true;
-                    });
-                }
-
-                if (mathCount === 1)
-                {
-                    if (maths[0].checked)
-                    {
-                        maths[1].disabled = true; maths[0].disabled = true;
-                    }
-                }
-
-                if (otherCount === 2)
-                {
-                    others.forEach(function (other)
-                    {
-                        other.disabled = true;
-                    });
-                }
-                if (extendedessay.checked)
-                {
-                    extendedessay.disabled = true;
+                    extendedessay.disabled = true; // Disable it
                 }
             }
         }
@@ -895,6 +705,135 @@
         </fieldset>
         <button type="submit">Show Universities</button>
     </form>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+            position: relative;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        span {
+            font-size: 18px;
+            color: #666;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .logout-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        p {
+            text-align: left;
+        }
+
+        fieldset {
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            padding: 10px;
+            margin-top: 20px;
+            margin-left: 250px;
+            margin-right: 250px;
+            text-align: left;
+        }
+
+        .material {
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+        legend {
+            font-size: 24px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .studylabel {
+            display: inline;
+
+        }
+
+        .studylabel2 {
+            margin-left: 30px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+            background-color: #0056b3;
+        }
+
+        label {
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="number"] {
+            width: 97%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .containerh1 {
+            left: 50px;
+
+        }
+    </style>
 </body>
 
 </html>

@@ -126,8 +126,10 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Get the information sent from the server -->
                 {% for major, university in universities.items %}
-                {% for name, cost, website in university %}
+                {% for name, cost, website in university %} 
+                <!-- loop through them and list them inside a table -->
                 <tr>
                     <td>{{ major }}</td>
                     <td><input type="radio" name="uni" value='{{ name }}'>{{ name }}</input></td>
@@ -139,8 +141,7 @@
         </table>
         
     </div>
-    <button>Next</button>
-    
+    <button>Next</button> 
 
     </form>
 </body>

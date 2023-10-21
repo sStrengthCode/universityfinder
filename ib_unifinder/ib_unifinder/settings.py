@@ -79,10 +79,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'student',
-        'USER': 'root',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '',
+        'USER': 'stu',
+        'PASSWORD': 'Fuckoff77',
+        'HOST': 'ib-uni-finder.mysql.database.azure.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'ssl': {'ca': r"C:\Users\PC\Downloads\DigiCertGlobalRootCA.crt.pem"}
+        }
     }
 }
 

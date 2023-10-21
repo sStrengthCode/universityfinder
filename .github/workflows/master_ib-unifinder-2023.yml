@@ -64,4 +64,4 @@ jobs:
         with:
           app-name: 'ib-unifinder-2023'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_29D19DB462E748AAB46A153ED06BD25D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_683142EA6FC14274985303318A319060 }}

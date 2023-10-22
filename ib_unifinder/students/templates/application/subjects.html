@@ -94,145 +94,10 @@
                 }
             }
 
-            setText(); // Call setText function
+            setStream(); // Call setStream function
 
         }
-
-        // function remaining()
-        // {
-        //     const languages = document.querySelectorAll(".language"); // Get all language subjects
-        //     const sciencesubs = document.querySelectorAll(".sciencesub"); // Get all science subjects
-        //     const others = document.querySelectorAll(".other"); // Get all Individuals and Societies subjects
-        //     const maths = document.querySelectorAll(".math"); // Get all math subjects
-        //     const science = document.getElementById("science"); // Get the science radio button
-        //     const art = document.getElementById("art"); // Get the art radio button
-        //     const output = document.getElementById("output"); // Get the output element
-            
-        //     // let mathCount = 0;
-        //     // let sciencesubCount = 0;
-        //     // let languageCount = 0;
-        //     // let otherCount = 0;
-
-
-        //     // function updateMathCount()
-        //     // {
-        //     //     mathCount = 0;
-        //     //     maths.forEach(function (math)
-        //     //     {
-        //     //         if (math.checked)
-        //     //         {
-        //     //             mathCount++;
-        //     //         }
-        //     //     });
-        //     // }
-
-        //     // function updateScienceCount()
-        //     // {
-        //     //     sciencesubCount = 0;
-        //     //     sciencesubs.forEach(function (sciencesub)
-        //     //     {
-        //     //         if (sciencesub.checked)
-        //     //         {
-        //     //             sciencesubCount++;
-        //     //         }
-        //     //     });
-        //     // }
-
-        //     // function updateLanguageCount()
-        //     // {
-        //     //     languageCount = 0;
-        //     //     languages.forEach(function (language)
-        //     //     {
-        //     //         if (language.checked)
-        //     //         {
-        //     //             languageCount++;
-        //     //         }
-        //     //     });
-        //     // }
-
-        //     // languages.forEach(function (language)
-        //     // {
-        //     //     language.addEventListener("change", function ()
-        //     //     {
-        //     //         if (language.checked)
-        //     //         {
-        //     //             languageCount++;
-        //     //         }
-        //     //         else
-        //     //         {
-        //     //             languageCount--;
-        //     //         }
-        //     //     });
-        //     //     updateLanguageCount();
-        //     //     setText();
-        //     // });
-
-        //     // function updateotherCount()
-        //     // {
-        //     //     otherCount = 0;
-        //     //     others.forEach(function (other)
-        //     //     {
-        //     //         if (other.checked)
-        //     //         {
-        //     //             otherCount++;
-        //     //         }
-        //     //     });
-        //     // }
-
-        //     // others.forEach(function (other)
-        //     // {
-        //     //     other.addEventListener("change", function ()
-        //     //     {
-        //     //         if (other.checked)
-        //     //         {
-        //     //             otherCount++;
-        //     //         }
-        //     //         else
-        //     //         {
-        //     //             otherCount--;
-        //     //         }
-        //     //     });
-        //     //     updateotherCount();
-        //     //     setText();
-        //     // });
-
-        //     // maths.forEach(function (math)
-        //     // {
-        //     //     math.addEventListener("change", function ()
-        //     //     {
-        //     //         if (math.checked)
-        //     //         {
-        //     //             mathCount++;
-        //     //         }
-        //     //         else
-        //     //         {
-        //     //             mathCount--;
-        //     //         }
-        //     //     });
-        //     //     updateMathCount();
-        //     //     setText();
-        //     // });
-
-        //     // sciencesubs.forEach(function (sciencesub)
-        //     // {
-        //     //     sciencesub.addEventListener("change", function ()
-        //     //     {
-        //     //         if (sciencesub.checked)
-        //     //         {
-        //     //             sciencesubCount++;
-        //     //         }
-        //     //         else
-        //     //         {
-        //     //             sciencesubCount--;
-        //     //         }
-        //     //     });
-        //     //     updateScienceCount();
-        //     //     
-        //     // });
-        //     setText();
-        // }
-
-        function setText()
+        function setStream() // function to set the stream (science or art) and studytype (diploma or course)
         {
             const science = document.getElementById("science"); // Get the science radio button (the very first one)
             const art = document.getElementById("art"); // Get the art radio button
@@ -414,19 +279,19 @@
         <fieldset>
             <legend>Select your stream:</legend>
             <label class>
-                <input type="radio" name="c1" value="science" id="science" onchange="setText(this)"> Science
+                <input type="radio" name="c1" value="science" id="science" onchange="setStream(this)"> Science
             </label>
             <label>
-                <input type="radio" name="c1" value="art" id="art" onchange="setText(this)"> Art
+                <input type="radio" name="c1" value="art" id="art" onchange="setStream(this)"> Art
             </label>
         </fieldset>
         <fieldset>
             <legend>Select your study type:</legend>
             <label>
-                <input type="radio" name="c3" value="diploma" onchange="setText(this)"> Diploma
+                <input type="radio" name="c3" value="diploma" onchange="setStream(this)"> Diploma
             </label>
             <label>
-                <input type="radio" name="c3" value="course" onchange="setText(this)"> Course
+                <input type="radio" name="c3" value="course" onchange="setStream(this)"> Course
             </label>
         </fieldset>
         <fieldset>

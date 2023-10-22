@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ.get("DB_NAME"),
         'USER': os.environ.get("DB_USER"),
-        'PASSWORD': 'Fuckoff77',
+        'PASSWORD': 'Ibdatabase77',
         'HOST': 'ib-uni-finder.mysql.database.azure.com',
         'PORT': '3306',
         'OPTIONS': {'ssl': {'ca': os.environ.get('DB_SSL_CA')}}
